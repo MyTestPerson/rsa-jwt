@@ -26,3 +26,6 @@ keytool -import -keystore keystore -file certificate.pem -alias theCARoot
 **Import signed certificate for associated alias in the keystore**
 
 keytool –import –keystore keystore –file client.cer –alias client
+
+
+https://stackoverflow.com/questions/73349694/generate-self-signed-certificate-and-create-keystore-and-generate-jwt-token-in-j
