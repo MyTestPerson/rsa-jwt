@@ -1,50 +1,28 @@
+**Creating a sample CA certificate**
 
-"%JAVA_HOME%\bin\keytool"
-
-
-Создание сертификата для подписания
-
-.\bin\openssl.exe req -config openssl.cnf -new -x509 -keyout private.pem -out certificate.pem -days 365
-
-private.pem
-
-certificate.pem
+openssl.exe req -config openssl.cnf -new -x509 -keyout private.pem -out certificate.pem -days 365
 
 
+**Create a kestore named keystore**
 
-Создайте хранилище ключей с именем keystore
-
-"%JAVA_HOME%\bin\keytool" –keystore keystore –genkey –alias client -keyalg rsa
-
-keystore
+keytool –keystore keystore –genkey –alias client -keyalg rsa
 
 
+**Generate certificate signing request**
 
-Генерировать запрос на подпись сертификата
-
-"%JAVA_HOME%\bin\keytool" –keystore keystore –certreq –alias client –keyalg rsa –file client.csr
-
-client.csr
+keytool –keystore keystore –certreq –alias client –keyalg rsa –file client.csr
 
 
+**Generate signed certificate for associated CSR**
 
-Создать подписанный сертификат для связанного CSR
-
-.\bin\openssl.exe x509 -req -CA certificate.pem -CAkey private.pem -in client.csr -out client.cer -days 365 -CAcreateserial
-
-client.cer
+openssl.exe x509 -req -CA certificate.pem -CAkey private.pem -in client.csr -out client.cer -days 365 -CAcreateserial
 
 
+**Import CA certificate into keystore**
 
-Импортировать сертификат CA в хранилище ключей
-
-"%JAVA_HOME%\bin\keytool" -import -keystore keystore -file certificate.pem -alias theCARoot
-
+keytool -import -keystore keystore -file certificate.pem -alias theCARoot
 
 
-Импортировать подписанный сертификат для связанного псевдонима в хранилище ключей
+**Import signed certificate for associated alias in the keystore**
 
-"%JAVA_HOME%\bin\keytool" –import –keystore keystore –file client.cer –alias client
-
-
-https://youtu.be/34cps7vzBeA
+keytool –import –keystore keystore –file client.cer –alias client
